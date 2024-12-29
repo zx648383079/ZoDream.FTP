@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ZoDream.FileClient (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "ZoDream.FileClient (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

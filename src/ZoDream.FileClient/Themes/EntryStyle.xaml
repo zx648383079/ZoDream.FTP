@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ctl="using:ZoDream.FileClient.Controls"
+    xmlns:cvt="using:ZoDream.FileClient.Converters"
+    xmlns:vm="using:ZoDream.FileClient.ViewModels">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ms-appx:///Themes/InputStyle.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <cvt:IconConverter x:Key="IconCvt" />
+
+    <DataTemplate x:Key="FileEntryTemaplate">
+        <Grid Height="60">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4*" />
+                <RowDefinition Height="3*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            <FontIcon
+                Grid.RowSpan="2"
+                Glyph="{Binding Converter={StaticResource IconCvt}}"
+                Style="{ThemeResource HeaderIcon}" />
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <TextBlock Style="{ThemeResource HeaderTb}" Text="{Binding Name}" />
+                <FontIcon
+                    Glyph="&#xE72E;"
+                    Style="{ThemeResource HeaderStamp}"
+                    Visibility="{Binding IsEncrypted, Converter={StaticResource ToggleCvt}}" />
+            </StackPanel>
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="1"
+                Orientation="Horizontal"
+                Spacing="8">
+                <TextBlock Style="{ThemeResource MetaTb}" Text="{Binding Length, Converter={StaticResource SizeCvt}}" />
+                <TextBlock Style="{ThemeResource MetaTb}" Text="{Binding CreatedTime}" />
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="DirectoryEntryTemaplate">
+        <Grid Height="60">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            <FontIcon Glyph="&#xE8B7;" Style="{ThemeResource HeaderIcon}" />
+            <StackPanel
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <TextBlock Style="{ThemeResource HeaderTb}" Text="{Binding Name}" />
+                <FontIcon
+                    Glyph="&#xE72E;"
+                    Style="{ThemeResource HeaderStamp}"
+                    Visibility="{Binding IsEncrypted, Converter={StaticResource ToggleCvt}}" />
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="BackEntryTemaplate">
+        <Grid Height="60">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            <FontIcon Glyph="&#xE74A;" Style="{ThemeResource HeaderIcon}" />
+            <TextBlock
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                Style="{ThemeResource HeaderTb}"
+                Text=".." />
+        </Grid>
+    </DataTemplate>
+
+    <ctl:EntryItemTemplateSelector
+        x:Key="EntryTemplateSelector"
+        BackTemplate="{StaticResource BackEntryTemaplate}"
+        DefaultTemplate="{StaticResource FileEntryTemaplate}"
+        DirectoryTemplate="{StaticResource DirectoryEntryTemaplate}" />
+</ResourceDictionary>
