@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ZoDream.Shared.Interfaces
@@ -20,8 +21,21 @@ namespace ZoDream.Shared.Interfaces
     public interface IEntryExplorer : IDisposable
     {
 
-        public bool CanGoBack { get; }
+        /// <summary>
+        /// 连接
+        /// </summary>
+        /// <param name="option"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public Task<bool> ConnectAsync(IConnectOption option, CancellationToken token = default);
+        
+        /// <summary>
+        /// 转换
+        /// </summary>
+        /// <param name="entrance"></param>
+        /// <returns></returns>
+        public ISourceEntry Convert(IConnectEntrance entrance);
 
-        public Task<IEntryStream> OpenAsync(ISourceEntry entry);
+        public Task<IEntryStream> OpenAsync(ISourceEntry entry, CancellationToken token = default);
     }
 }

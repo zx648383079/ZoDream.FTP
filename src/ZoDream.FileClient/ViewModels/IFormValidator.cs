@@ -1,6 +1,6 @@
 ﻿namespace ZoDream.FileClient.ViewModels
 {
-    public class IFormValidator
+    public interface IFormValidator
     {
         public bool IsValid { get; }
     }

@@ -20,12 +20,18 @@ namespace ZoDream.FileClient.ViewModels
 
         public bool IsEncrypted => false;
 
-        public DateTime? CreatedTime => null;
+        public DateTime? CreatedTime { get; private set; }
 
         public DirectoryEntry(string fileName)
         {
             FullPath = fileName;
             Name = Path.GetFileName(fileName);
+        }
+
+        public DirectoryEntry(string fileName, DateTime? createdTime)
+            : this(fileName)
+        {
+            CreatedTime = createdTime;
         }
 
         public DirectoryEntry(DirectoryInfo info)
@@ -56,6 +62,13 @@ namespace ZoDream.FileClient.ViewModels
             {
                 FullPath = e.FullPath;
             }
+        }
+
+        public FileEntry(
+            string fullPath, long length, bool isEncrypted, DateTime? createdTime)
+            : base(Path.GetFileName(fullPath), length, isEncrypted, createdTime)
+        {
+            FullPath = fullPath;
         }
 
         public FileEntry(FileInfo file)

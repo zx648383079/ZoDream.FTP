@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using ZoDream.Shared.Interfaces;
 
@@ -12,7 +13,19 @@ namespace ZoDream.FileClient.ViewModels
 
         public List<ISourceEntry> Items { get; private set; } = [];
 
-        public bool CanGoBack { get; }
+        public Task<bool> ConnectAsync(IConnectOption option, CancellationToken token = default)
+        {
+            return Task.FromResult(true);
+        }
+
+        public ISourceEntry Convert(IConnectEntrance entrance)
+        {
+            if (File.Exists(entrance.LocalPath))
+            {
+                return new FileEntry(entrance.LocalPath);
+            }
+            return new DirectoryEntry(entrance.LocalPath);
+        }
 
         public bool Contains(string fileName)
         {
@@ -67,7 +80,7 @@ namespace ZoDream.FileClient.ViewModels
             }
         }
 
-        public async Task<IEntryStream> OpenAsync(ISourceEntry entry)
+        public async Task<IEntryStream> OpenAsync(ISourceEntry entry, CancellationToken token = default)
         {
             if (entry.IsDirectory)
             {

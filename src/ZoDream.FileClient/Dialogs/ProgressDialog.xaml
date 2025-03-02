@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentDialog
     x:Class="ZoDream.FileClient.Dialogs.ProgressDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -8,7 +8,7 @@
     xmlns:local="using:ZoDream.FileClient.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:ZoDream.FileClient.ViewModels"
-    Title="压缩中"
+    Title="传输中"
     PrimaryButtonText="取消"
     mc:Ignorable="d">
 

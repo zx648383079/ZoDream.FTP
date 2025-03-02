@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage.Pickers;
+using ZoDream.FileClient.Dialogs;
 using ZoDream.FileClient.Pages;
 using ZoDream.Shared.ViewModel;
 
@@ -17,8 +18,10 @@ namespace ZoDream.FileClient.ViewModels
         {
             OpenCommand = new RelayCommand(TapOpen);
             CreateCommand = new RelayCommand(TapCreate);
-            version = App.ViewModel.Version;
+            version = _app.Version;
         }
+
+        private readonly AppViewModel _app = App.ViewModel;
 
         private string version;
 
@@ -33,24 +36,22 @@ namespace ZoDream.FileClient.ViewModels
 
         private async void TapOpen(object? _)
         {
-            var picker = new FileOpenPicker();
-            //foreach (var ext in ReaderFactory.FileFilterItems)
-            //{
-            //    picker.FileTypeFilter.Add(ext);
-            //}
-            picker.FileTypeFilter.Add("*");
-            App.ViewModel.InitializePicker(picker);
-            var items = await picker.PickSingleFileAsync();
-            if (items is null)
+            var picker = new HistoryDialog();
+            if (!await _app.OpenFormAsync(picker))
             {
                 return;
             }
-            App.ViewModel.Navigate<WorkspacePage>(items);
+            _app.Navigate<WorkspacePage>();
         }
         
-        private void TapCreate(object? _)
+        private async void TapCreate(object? _)
         {
-            App.ViewModel.Navigate<WorkspacePage>();
+            var picker = new ConnectDialog();
+            if (!await _app.OpenFormAsync(picker))
+            {
+                return;
+            }
+            _app.Navigate<WorkspacePage>();
         }
     }
 }

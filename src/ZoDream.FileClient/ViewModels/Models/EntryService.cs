@@ -3,21 +3,15 @@ using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
+using ZoDream.FileClient.Dialogs;
 using ZoDream.Shared.Interfaces;
-using ZoDream.Shared.IO;
 
 namespace ZoDream.FileClient.ViewModels
 {
     public class EntryService : IEntryService, IDisposable
     {
         public EntryService(
-            ILogger logger,
-            ITemporaryStorage storage)
-        {
-            
-        }
-        public EntryService(ILogger logger)
-            : this(logger, new TemporaryStorage())
+            ILogger logger)
         {
             
         }
@@ -156,8 +150,6 @@ namespace ZoDream.FileClient.ViewModels
             var instance = Activator.CreateInstance(type);
             var property = type.GetProperty(nameof(model.Password));
             property?.SetValue(instance, model.Password);
-            property = type.GetProperty("Dictionary");
-            property?.SetValue(instance, model.DictFileName);
             return (T)instance;
         }
 

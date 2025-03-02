@@ -6,10 +6,6 @@
     xmlns:cvt="using:ZoDream.FileClient.Converters"
     xmlns:vm="using:ZoDream.FileClient.ViewModels">
 
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="ms-appx:///Themes/InputStyle.xaml" />
-    </ResourceDictionary.MergedDictionaries>
-
     <cvt:IconConverter x:Key="IconCvt" />
 
     <DataTemplate x:Key="FileEntryTemaplate">

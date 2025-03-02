@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:bhv="using:ZoDream.FileClient.Behaviors"
+    xmlns:ctl="using:ZoDream.FileClient.Controls"
+    xmlns:ivy="using:Microsoft.Xaml.Interactivity">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ms-appx:///Themes/InputStyle.xaml" />
+        <ResourceDictionary Source="ms-appx:///Themes/EntryStyle.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <Style
+        x:Key="RouteIconBtn"
+        BasedOn="{StaticResource IconBtn}"
+        TargetType="Button">
+        <Setter Property="Width" Value="{StaticResource RouteToolSize}" />
+        <Setter Property="Height" Value="{StaticResource RouteToolSize}" />
+        <!--<Setter Property="Background" Value="Transparent" />-->
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="0" />
+    </Style>
+    <Style x:Key="RouteText" TargetType="TextBox">
+        <Setter Property="Height" Value="{StaticResource RouteToolSize}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+    <Style TargetType="ctl:ExplorerView">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ctl:ExplorerView">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <Button
+                                    Command="{TemplateBinding HomeCommand}"
+                                    Content="&#xE80F;"
+                                    IsEnabled="{TemplateBinding HomeEnabled}"
+                                    Style="{StaticResource RouteIconBtn}"
+                                    Visibility="{TemplateBinding HomeVisible}" />
+                                <Button
+                                    Grid.Column="1"
+                                    Command="{TemplateBinding BackCommand}"
+                                    Content="&#xE72B;"
+                                    IsEnabled="{TemplateBinding BackEnabled}"
+                                    Style="{StaticResource RouteIconBtn}"
+                                    Visibility="{TemplateBinding BackVisible}" />
+                                <Button
+                                    Grid.Column="2"
+                                    Content="&#xE72A;"
+                                    Style="{StaticResource RouteIconBtn}"
+                                    Visibility="Collapsed" />
+                                <TextBox
+                                    x:Name="PART_RouteTb"
+                                    Grid.Column="3"
+                                    IsEnabled="{TemplateBinding IsEnabled}"
+                                    Style="{StaticResource RouteText}">
+                                    <ivy:Interaction.Behaviors>
+                                        <bhv:ConfirmSubmittedBehavior Command="{Binding GoCommand}" />
+                                    </ivy:Interaction.Behaviors>
+                                </TextBox>
+                                <Button
+                                    Grid.Column="4"
+                                    Command="{TemplateBinding RefreshCommand}"
+                                    Content="&#xE72C;"
+                                    IsEnabled="{TemplateBinding IsEnabled}"
+                                    Style="{StaticResource RouteIconBtn}" />
+                                <Button
+                                    Grid.Column="5"
+                                    Command="{TemplateBinding GoCommand}"
+                                    CommandParameter="{Binding ElementName=PART_RouteTb, Path=Text}"
+                                    Content="&#xE72A;"
+                                    IsEnabled="{TemplateBinding IsEnabled}"
+                                    Style="{StaticResource RouteIconBtn}" />
+                            </Grid>
+                            <ListView
+                                Grid.Row="1"
+                                ItemTemplateSelector="{StaticResource EntryTemplateSelector}"
+                                ItemsSource="{TemplateBinding ItemsSource}" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

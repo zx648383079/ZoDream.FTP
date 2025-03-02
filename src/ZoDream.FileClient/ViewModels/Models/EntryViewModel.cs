@@ -17,8 +17,6 @@ namespace ZoDream.FileClient.ViewModels
 
         public long Length { get; set; }
 
-        public long CompressedLength { get; set; }
-
         public bool IsEncrypted { get; set; }
         public bool IsDirectory { get; set; }
 
@@ -57,7 +55,6 @@ namespace ZoDream.FileClient.ViewModels
         {
             Name = entry.Name;
             Length = entry.Length;
-            CompressedLength = entry.CompressedLength;
             IsEncrypted = entry.IsEncrypted;
             CreatedTime = entry.CreatedTime;
             if (entry is ISourceEntry e)

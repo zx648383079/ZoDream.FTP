@@ -33,7 +33,6 @@ namespace ZoDream.Shared.Models
 
         public long Length { get; private set; }
 
-
         public bool IsEncrypted { get; private set; }
 
         public DateTime? CreatedTime { get; private set; }
