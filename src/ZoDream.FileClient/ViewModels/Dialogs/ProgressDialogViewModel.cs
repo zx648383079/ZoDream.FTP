@@ -1,16 +1,12 @@
-﻿using Microsoft.UI.Xaml.Shapes;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ZoDream.Shared.Logging;
-using ZoDream.Shared.ViewModel;
 
 namespace ZoDream.FileClient.ViewModels
 {
-    public class ProgressDialogViewModel : BindableBase, IDisposable
+    public class ProgressDialogViewModel : ObservableObject, IDisposable
     {
         public ProgressDialogViewModel()
         {
@@ -68,21 +64,21 @@ namespace ZoDream.FileClient.ViewModels
 
         public int ElapsedTime {
             get => _elapsedTime;
-            set => Set(ref _elapsedTime, value);
+            set => SetProperty(ref _elapsedTime, value);
         }
 
         private int _timeLeft;
 
         public int TimeLeft {
             get => _timeLeft;
-            set => Set(ref _timeLeft, value);
+            set => SetProperty(ref _timeLeft, value);
         }
 
         private bool _progressUnknow = true;
 
         public bool ProgressUnknow {
             get => _progressUnknow;
-            set => Set(ref _progressUnknow, value);
+            set => SetProperty(ref _progressUnknow, value);
         }
 
 
@@ -93,7 +89,7 @@ namespace ZoDream.FileClient.ViewModels
         public double Progress {
             get => _progress;
             set {
-                Set(ref _progress, value);
+                SetProperty(ref _progress, value);
                 if (value > 0)
                 {
                     ProgressUnknow = false;
@@ -107,7 +103,7 @@ namespace ZoDream.FileClient.ViewModels
         public string Message {
             get => _message;
             set {
-                Set(ref _message, value);
+                SetProperty(ref _message, value);
                 if (Progress > 0)
                 {
                     Computed();

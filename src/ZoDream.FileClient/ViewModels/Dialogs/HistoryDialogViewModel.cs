@@ -1,29 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ZoDream.Shared.Interfaces;
-using ZoDream.Shared.ViewModel;
 
 namespace ZoDream.FileClient.ViewModels
 {
-    public class HistoryDialogViewModel : BindableBase, IFormValidator
+    public class HistoryDialogViewModel : ObservableObject, IFormValidator
     {
 
         private string _keywords = string.Empty;
 
         public string Keywords {
             get => _keywords;
-            set => Set(ref _keywords, value);
+            set => SetProperty(ref _keywords, value);
         }
 
         private ObservableCollection<IConnectRecord> _items = [];
 
         public ObservableCollection<IConnectRecord> Items {
             get => _items;
-            set => Set(ref _items, value);
+            set => SetProperty(ref _items, value);
         }
 
         private int _selectedIndex;
@@ -31,7 +26,7 @@ namespace ZoDream.FileClient.ViewModels
         public int SelectedIndex {
             get => _selectedIndex;
             set {
-                Set(ref _selectedIndex, value);
+                SetProperty(ref _selectedIndex, value);
                 OnPropertyChanged(nameof(IsValid));
             }
         }

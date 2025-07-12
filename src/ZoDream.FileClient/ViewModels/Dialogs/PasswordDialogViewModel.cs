@@ -1,27 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ZoDream.Shared.ViewModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace ZoDream.FileClient.ViewModels
 {
-    public class PasswordDialogViewModel : BindableBase
+    public class PasswordDialogViewModel : ObservableObject
     {
 
         private string _host = string.Empty;
 
         public string Host {
             get => _host;
-            set => Set(ref _host, value);
+            set => SetProperty(ref _host, value);
         }
 
         private int _port;
 
         public int Port {
             get => _port;
-            set => Set(ref _port, value);
+            set => SetProperty(ref _port, value);
         }
 
 
@@ -30,7 +25,7 @@ namespace ZoDream.FileClient.ViewModels
 
         public string Account {
             get => _account;
-            set => Set(ref _account, value);
+            set => SetProperty(ref _account, value);
         }
 
 
@@ -38,7 +33,7 @@ namespace ZoDream.FileClient.ViewModels
 
         public string Password {
             get => _password;
-            set => Set(ref _password, value);
+            set => SetProperty(ref _password, value);
         }
 
     }

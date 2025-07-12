@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Windows.Input;
 using Windows.Storage.Pickers;
-using ZoDream.Shared.ViewModel;
 
 namespace ZoDream.FileClient.ViewModels
 {
-    public class ConnectDialogViewModel : BindableBase, IFormValidator
+    public class ConnectDialogViewModel : ObservableObject, IFormValidator
     {
         public ConnectDialogViewModel()
         {
@@ -23,14 +20,14 @@ namespace ZoDream.FileClient.ViewModels
 
         public int ProtocolIndex {
             get => _protocolIndex;
-            set => Set(ref _protocolIndex, value);
+            set => SetProperty(ref _protocolIndex, value);
         }
 
         private int _methodIndex = 1;
 
         public int MethodIndex {
             get => _methodIndex;
-            set => Set(ref _methodIndex, value);
+            set => SetProperty(ref _methodIndex, value);
         }
 
 
@@ -38,7 +35,7 @@ namespace ZoDream.FileClient.ViewModels
 
         public string Host {
             get => _host;
-            set => Set(ref _host, value);
+            set => SetProperty(ref _host, value);
         }
 
         private int _port = 21;
@@ -50,7 +47,7 @@ namespace ZoDream.FileClient.ViewModels
                 {
                     ProtocolIndex = value == 22 ? 1 : 0;
                 }
-                Set(ref _port, value);
+                SetProperty(ref _port, value);
             }
         }
 
@@ -58,7 +55,7 @@ namespace ZoDream.FileClient.ViewModels
 
         public string Account {
             get => _account;
-            set => Set(ref _account, value);
+            set => SetProperty(ref _account, value);
         }
 
 
@@ -66,35 +63,35 @@ namespace ZoDream.FileClient.ViewModels
 
         public string Password {
             get => _password;
-            set => Set(ref _password, value);
+            set => SetProperty(ref _password, value);
         }
 
         private string _localEntrance = string.Empty;
 
         public string LocalEntrance {
             get => _localEntrance;
-            set => Set(ref _localEntrance, value);
+            set => SetProperty(ref _localEntrance, value);
         }
 
         private string _remoteEntrance = string.Empty;
 
         public string RemoteEntrance {
             get => _remoteEntrance;
-            set => Set(ref _remoteEntrance, value);
+            set => SetProperty(ref _remoteEntrance, value);
         }
 
         private bool _openSync;
 
         public bool OpenSync {
             get => _openSync;
-            set => Set(ref _openSync, value);
+            set => SetProperty(ref _openSync, value);
         }
 
         private bool _openDiff;
 
         public bool OpenDiff {
             get => _openDiff;
-            set => Set(ref _openDiff, value);
+            set => SetProperty(ref _openDiff, value);
         }
 
 
@@ -102,7 +99,7 @@ namespace ZoDream.FileClient.ViewModels
 
         public ICommand LocalCommand { get; private set; }
 
-        private async void TapLocal(object? _)
+        private async void TapLocal()
         {
             var picker = new FolderPicker();
             picker.FileTypeFilter.Add("*");

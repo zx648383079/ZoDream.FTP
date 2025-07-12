@@ -1,17 +1,17 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.IO;
 using ZoDream.Shared.Interfaces;
-using ZoDream.Shared.ViewModel;
 
 namespace ZoDream.FileClient.ViewModels
 {
-    public class EntryViewModel: BindableBase, ISourceEntry
+    public class EntryViewModel: ObservableObject, ISourceEntry
     {
         private string _name = string.Empty;
 
         public string Name {
             get => _name;
-            set => Set(ref _name, value);
+            set => SetProperty(ref _name, value);
         }
 
 
@@ -26,7 +26,7 @@ namespace ZoDream.FileClient.ViewModels
 
         public string FullPath {
             get => _fullPath;
-            set => Set(ref _fullPath, value);
+            set => SetProperty(ref _fullPath, value);
         }
 
         public EntryViewModel(string fullPath)

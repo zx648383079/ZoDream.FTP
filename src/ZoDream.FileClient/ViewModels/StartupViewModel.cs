@@ -1,17 +1,19 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage.Pickers;
+using ZoDream.FileClient.Controls;
 using ZoDream.FileClient.Dialogs;
 using ZoDream.FileClient.Pages;
-using ZoDream.Shared.ViewModel;
 
 namespace ZoDream.FileClient.ViewModels
 {
-    internal class StartupViewModel: BindableBase
+    internal class StartupViewModel: ObservableObject
     {
 
         public StartupViewModel()
@@ -27,14 +29,14 @@ namespace ZoDream.FileClient.ViewModels
 
         public string Version {
             get => version;
-            set => Set(ref version, value);
+            set => SetProperty(ref version, value);
         }
 
         public ICommand OpenCommand { get; private set; }
         public ICommand CreateCommand { get; private set; }
 
 
-        private async void TapOpen(object? _)
+        private async void TapOpen()
         {
             var picker = new HistoryDialog();
             if (!await _app.OpenFormAsync(picker))
@@ -44,7 +46,7 @@ namespace ZoDream.FileClient.ViewModels
             _app.Navigate<WorkspacePage>();
         }
         
-        private async void TapCreate(object? _)
+        private async void TapCreate()
         {
             var picker = new ConnectDialog();
             if (!await _app.OpenFormAsync(picker))

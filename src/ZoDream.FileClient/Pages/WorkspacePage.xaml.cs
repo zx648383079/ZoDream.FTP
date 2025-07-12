@@ -12,6 +12,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using ZoDream.FileClient.ViewModels;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -26,6 +27,24 @@ namespace ZoDream.FileClient.Pages
         public WorkspacePage()
         {
             this.InitializeComponent();
+            ViewModel.Console = new(PART_ConsoleBlock);
+        }
+
+        internal WorkspaceViewModel ViewModel => (WorkspaceViewModel)DataContext;
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            if (e.Parameter is ConnectOptions o)
+            {
+                ViewModel.LoadAsync(o);
+            }
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            ViewModel.Dispose();
         }
     }
 }

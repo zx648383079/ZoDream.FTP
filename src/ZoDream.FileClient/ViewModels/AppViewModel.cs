@@ -2,17 +2,14 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using WinRT.Interop;
-using ZoDream.Shared.ViewModel;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Dispatching;
 using ZoDream.Shared.Interfaces;
 using ZoDream.Shared.Logging;
+using CommunityToolkit.Mvvm.Input;
 
 namespace ZoDream.FileClient.ViewModels
 {
@@ -20,9 +17,7 @@ namespace ZoDream.FileClient.ViewModels
     {
         public AppViewModel()
         {
-            BackCommand = new RelayCommand(_ => {
-                NavigateBack();
-            });
+            BackCommand = new RelayCommand(NavigateBack);
         }
         private Window _baseWindow;
         private IntPtr _baseWindowHandle;

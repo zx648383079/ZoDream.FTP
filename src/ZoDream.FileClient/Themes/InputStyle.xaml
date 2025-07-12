@@ -21,12 +21,12 @@
         <Setter Property="FontSize" Value="{StaticResource MetaFontSize}" />
         <Setter Property="Foreground" Value="{ThemeResource SecondaryTextBrush}" />
     </Style>
-    <Style x:Name="MetaTb" TargetType="TextBlock">
+    <Style x:Name="MetaLabelStyle" TargetType="TextBlock">
         <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="FontSize" Value="{StaticResource MetaFontSize}" />
         <Setter Property="Foreground" Value="{ThemeResource SecondaryTextBrush}" />
     </Style>
-    <Style x:Name="HeaderTb" TargetType="TextBlock">
+    <Style x:Name="HeaderLabelStyle" TargetType="TextBlock">
         <Setter Property="VerticalAlignment" Value="Bottom" />
         <Setter Property="FontWeight" Value="Black" />
         <Setter Property="Foreground" Value="{ThemeResource BodyTextBrush}" />

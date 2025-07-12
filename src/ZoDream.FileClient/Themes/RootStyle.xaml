@@ -12,4 +12,12 @@
     <Style x:Key="InputHeaderTb" TargetType="TextBlock">
         <Setter Property="Margin" Value="{StaticResource InputHeaderSpace}" />
     </Style>
+
+    <Style x:Key="CustomListBoxItem" TargetType="ListBoxItem">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    </Style>
+    <Style x:Key="CustomListBox" TargetType="ListBox">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource CustomListBoxItem}" />
+    </Style>
 </ResourceDictionary>
