@@ -1,34 +1,31 @@
-﻿using FluentFTP;
+﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using WebDav;
 using ZoDream.Shared.Interfaces;
 
 namespace ZoDream.FileClient.ViewModels
 {
-    public class FtpExplorer(IEntryService service) : IEntryExplorer
+    public class WebDAVExplorer(IEntryService service) : IEntryExplorer
     {
-
-        private AsyncFtpClient? _client;
-        public async Task<bool> ConnectAsync(IConnectOptions option, CancellationToken token = default)
+        private IWebDavClient? _client;
+        public Task<bool> ConnectAsync(IConnectOptions option, CancellationToken token = default)
         {
-            _client?.Dispose();
-            _client = new AsyncFtpClient(option.RemoteHost, option.RemotePort, null, new FtpLogger())
-            {
-                Credentials = new System.Net.NetworkCredential(option.RemoteUser, option.RemotePassword)
-            };
-            var profile = await _client.AutoConnect(token);
-            if (profile is null)
-            {
-                return false;
-            }
-            return true;
+            _client = new WebDavClient(new WebDavClientParams { 
+                BaseAddress = new Uri(option.RemoteHost),
+                Credentials = new NetworkCredential(option.RemoteUser, option.RemotePassword)
+            });
+            return Task.FromResult(true);
         }
 
         public ISourceEntry Convert(IConnectEntrance entrance)
         {
             return new DirectoryEntry(entrance.RemotePath);
         }
+
+   
 
         public async Task<IEntryStream> OpenAsync(ISourceEntry entry, CancellationToken token = default)
         {
@@ -45,20 +42,27 @@ namespace ZoDream.FileClient.ViewModels
             {
                 return [];
             }
+            var result = await _client.Propfind(fullPath, new PropfindParameters()
+            {
+                CancellationToken = token
+            });
+            if (!result.IsSuccessful)
+            {
+                return [];
+            }
             var res = new List<ISourceEntry>();
-            foreach (var item in await _client.GetListing(fullPath, FtpListOption.Recursive, token))
+            foreach (var item in result.Resources)
             {
                 if (token.IsCancellationRequested)
                 {
                     break;
                 }
-                if (item.Type == FtpObjectType.File)
+                if (!item.IsCollection)
                 {
-                    res.Add(new FileEntry(item.FullName, item.Size, false, item.Modified));
-                }
-                if (item.Type == FtpObjectType.Directory)
+                    res.Add(new FileEntry(item.DisplayName ?? "[-]", item.ContentLength ?? 0, false, item.LastModifiedDate ?? item.CreationDate));
+                } else
                 {
-                    res.Add(new DirectoryEntry(item.FullName, item.Modified));
+                    res.Add(new DirectoryEntry(item.DisplayName ?? "[-]", item.LastModifiedDate ?? item.CreationDate));
                 }
             }
             return [.. res];

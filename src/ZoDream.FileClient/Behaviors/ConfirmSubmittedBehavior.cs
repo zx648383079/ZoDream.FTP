@@ -1,11 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Xaml.Interactivity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ZoDream.FileClient.Behaviors
@@ -31,7 +26,7 @@ namespace ZoDream.FileClient.Behaviors
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
-                Command.Execute((sender as TextBox).Text);
+                Command?.Execute((sender as TextBox).Text);
                 e.Handled = true;
             }
         }

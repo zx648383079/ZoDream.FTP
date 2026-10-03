@@ -13,7 +13,7 @@ namespace ZoDream.FileClient.ViewModels
 
         public List<ISourceEntry> Items { get; private set; } = [];
 
-        public Task<bool> ConnectAsync(IConnectOption option, CancellationToken token = default)
+        public Task<bool> ConnectAsync(IConnectOptions option, CancellationToken token = default)
         {
             return Task.FromResult(true);
         }

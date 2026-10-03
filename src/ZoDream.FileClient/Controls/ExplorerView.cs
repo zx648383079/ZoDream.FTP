@@ -1,13 +1,12 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Windows.Input;
 using ZoDream.FileClient.ViewModels;
 
@@ -16,8 +15,12 @@ using ZoDream.FileClient.ViewModels;
 
 namespace ZoDream.FileClient.Controls
 {
+    [TemplatePart(Name = RouteElementName, Type = typeof(TextBox))]
+    [TemplatePart(Name = ListElementName, Type = typeof(ListView))]
     public sealed class ExplorerView : Control
     {
+        const string RouteElementName = "PART_RouteTb";
+        const string ListElementName = "PART_ListBox";
         public ExplorerView()
         {
             this.DefaultStyleKey = typeof(ExplorerView);
@@ -126,6 +129,17 @@ namespace ZoDream.FileClient.Controls
 
 
 
+        public string RefreshIcon {
+            get { return (string)GetValue(RefreshIconProperty); }
+            set { SetValue(RefreshIconProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for RefreshIcon.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty RefreshIconProperty =
+            DependencyProperty.Register(nameof(RefreshIcon), typeof(string), typeof(ExplorerView), new PropertyMetadata(string.Empty));
+
+
+
 
         public ICommand GoCommand {
             get { return (ICommand)GetValue(GoCommandProperty); }
@@ -136,6 +150,54 @@ namespace ZoDream.FileClient.Controls
         public static readonly DependencyProperty GoCommandProperty =
             DependencyProperty.Register("GoCommand", typeof(ICommand), typeof(ExplorerView), new PropertyMetadata(null));
 
+
+
+
+        public ICommand ItemClickCommand {
+            get { return (ICommand)GetValue(ItemClickCommandProperty); }
+            set { SetValue(ItemClickCommandProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ItemClickCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ItemClickCommandProperty =
+            DependencyProperty.Register(nameof(ItemClickCommand), typeof(ICommand), typeof(ExplorerView), new PropertyMetadata(null));
+
+
+
         #endregion
+
+        protected override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            if (GetTemplateChild(RouteElementName) is TextBox input)
+            {
+                input.KeyDown += Input_KeyDown;
+            }
+            if (GetTemplateChild(ListElementName) is ListView control)
+            {
+                control.DoubleTapped += Control_DoubleTapped;
+            }
+        }
+
+        private void Control_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            if (sender is not Selector s)
+            {
+                return;
+            }
+            if (s.SelectedItem is null)
+            {
+                return;
+            }
+            ItemClickCommand?.Execute(s.SelectedItem);
+        }
+
+        private void Input_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                GoCommand?.Execute(null);
+            }
+        }
     }
 }

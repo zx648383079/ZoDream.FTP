@@ -1,13 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.Storage.Pickers;
-using ZoDream.FileClient.Controls;
 using ZoDream.FileClient.Dialogs;
 using ZoDream.FileClient.Pages;
 
@@ -20,6 +14,7 @@ namespace ZoDream.FileClient.ViewModels
         {
             OpenCommand = new RelayCommand(TapOpen);
             CreateCommand = new RelayCommand(TapCreate);
+            EmptyCommand = new RelayCommand(TapEmpty);
             version = _app.Version;
         }
 
@@ -34,6 +29,8 @@ namespace ZoDream.FileClient.ViewModels
 
         public ICommand OpenCommand { get; private set; }
         public ICommand CreateCommand { get; private set; }
+
+        public ICommand EmptyCommand { get; private set;  }
 
 
         private async void TapOpen()
@@ -53,7 +50,23 @@ namespace ZoDream.FileClient.ViewModels
             {
                 return;
             }
-            _app.Navigate<WorkspacePage>();
+            var options = new ConnectOptions();
+            picker.ViewModel.Unload(options);
+            _app.Navigate<WorkspacePage>(options);
+        }
+
+        private async void TapEmpty()
+        {
+            var picker = _app.PickFolder();
+            var res = await picker.PickSingleFolderAsync();
+            if (res is null)
+            {
+                return;
+            }
+            _app.Navigate<WorkspacePage>(new ConnectOptions()
+            {
+                LocalPath = res.Path
+            });
         }
     }
 }

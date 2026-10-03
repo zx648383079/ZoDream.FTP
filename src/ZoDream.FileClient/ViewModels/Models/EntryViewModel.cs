@@ -7,6 +7,7 @@ namespace ZoDream.FileClient.ViewModels
 {
     public class EntryViewModel: ObservableObject, ISourceEntry
     {
+        public ExplorerViewModel? Host { get; set; }
         private string _name = string.Empty;
 
         public string Name {
@@ -28,6 +29,14 @@ namespace ZoDream.FileClient.ViewModels
             get => _fullPath;
             set => SetProperty(ref _fullPath, value);
         }
+
+        private EntryCompareStatus _compareStatus = EntryCompareStatus.None;
+
+        public EntryCompareStatus CompareStatus {
+            get => _compareStatus;
+            set => SetProperty(ref _compareStatus, value);
+        }
+
 
         public EntryViewModel(string fullPath)
         {

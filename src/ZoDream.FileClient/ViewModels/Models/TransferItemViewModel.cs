@@ -4,6 +4,7 @@ using System.Threading;
 using System.Windows.Input;
 using ZoDream.FileClient.Controls;
 using ZoDream.FileClient.Converters;
+using ZoDream.Shared.Interfaces;
 
 namespace ZoDream.FileClient.ViewModels
 {
@@ -21,7 +22,8 @@ namespace ZoDream.FileClient.ViewModels
         private CancellationTokenSource _tokenSource = new();
         private readonly Bandwidth _bandwidth = new();
 
-        public CancellationToken Token => _tokenSource.Token;
+        public ISourceEntry? LocalEntry { get; set; }
+        public ISourceEntry? RemoteEntry { get; set; }
 
         private string _localName = string.Empty;
 
@@ -36,6 +38,8 @@ namespace ZoDream.FileClient.ViewModels
             get => _localPath;
             set => SetProperty(ref _localPath, value);
         }
+
+
 
         private string _remoteName = string.Empty;
 

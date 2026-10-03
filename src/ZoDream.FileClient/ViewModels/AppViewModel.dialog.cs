@@ -1,5 +1,7 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Microsoft.UI;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.Windows.Storage.Pickers;
 using System;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -11,10 +13,13 @@ namespace ZoDream.FileClient.ViewModels
     internal partial class AppViewModel
     {
         public XamlRoot BaseXamlRoot => _baseWindow!.Content.XamlRoot;
-        
-        public void InitializePicker(object target)
+
+        public WindowId WindowId => _baseWindow.AppWindow.Id;
+
+
+        public FolderPicker PickFolder()
         {
-            InitializeWithWindow.Initialize(target, _baseWindowHandle);
+            return new(WindowId);
         }
 
         public async Task<bool> ConfirmAsync(string message, string title = "提示")

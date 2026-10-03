@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Windows.Input;
-using Windows.Storage.Pickers;
+using ZoDream.Shared.Models;
 
 namespace ZoDream.FileClient.ViewModels
 {
@@ -101,15 +101,49 @@ namespace ZoDream.FileClient.ViewModels
 
         private async void TapLocal()
         {
-            var picker = new FolderPicker();
-            picker.FileTypeFilter.Add("*");
-            App.ViewModel.InitializePicker(picker);
+            var picker = App.ViewModel.PickFolder();
             var items = await picker.PickSingleFolderAsync();
             if (items is null)
             {
                 return;
             }
             LocalEntrance = items.Path;
+        }
+
+        public void Load(ConnectOptions options)
+        {
+            Host = options.RemoteHost;
+            Port = options.RemotePort;
+
+            MethodIndex = (int)options.RemoteAccess;
+            ProtocolIndex = (int)options.RemoteProtocol;
+
+            Account = options.RemoteUser;
+            Password = options.RemotePassword;
+
+            LocalEntrance = options.LocalPath;
+            RemoteEntrance = options.RemotePath;
+
+            OpenDiff = options.EnabledDiff;
+            OpenSync = options.EnabledSync;
+        }
+
+        public void Unload(ConnectOptions options) 
+        {
+            options.RemoteHost = Host;
+            options.RemotePort = Port;
+
+            options.RemoteAccess = (AccessType)MethodIndex;
+            options.RemoteProtocol = (ProtocolType)ProtocolIndex;
+
+            options.RemoteUser = Account;
+            options.RemotePassword = Password;
+
+            options.LocalPath = LocalEntrance;
+            options.RemotePath = RemoteEntrance;
+
+            options.EnabledDiff = OpenDiff;
+            options.EnabledSync = OpenSync;
         }
     }
 }

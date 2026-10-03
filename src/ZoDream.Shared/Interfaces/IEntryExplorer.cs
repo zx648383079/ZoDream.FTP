@@ -27,7 +27,7 @@ namespace ZoDream.Shared.Interfaces
         /// <param name="option"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public Task<bool> ConnectAsync(IConnectOption option, CancellationToken token = default);
+        public Task<bool> ConnectAsync(IConnectOptions option, CancellationToken token = default);
         
         /// <summary>
         /// 转换

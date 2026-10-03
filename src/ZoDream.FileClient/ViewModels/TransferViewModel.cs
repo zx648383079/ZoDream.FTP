@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using ZoDream.FileClient.Controls;
@@ -83,6 +84,11 @@ namespace ZoDream.FileClient.ViewModels
                 }
                 item.StopCommand.Execute(null);
             }
+        }
+
+        public void Add(TransferItemViewModel item)
+        {
+            Items.Add(item);
         }
     }
 }

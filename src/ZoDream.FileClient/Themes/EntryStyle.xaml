@@ -6,10 +6,16 @@
     xmlns:cvt="using:ZoDream.FileClient.Converters"
     xmlns:vm="using:ZoDream.FileClient.ViewModels">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ms-appx:///Themes/InputStyle.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
     <cvt:IconConverter x:Key="IconCvt" />
+    <cvt:SwitchLabelConverter x:Key="SwitchLabelCvt" />
+    <cvt:CompareStatusConverter x:Key="CompareCvt" />
 
     <DataTemplate x:Key="FileEntryTemaplate">
-        <Grid Height="60">
+        <Grid Height="60" Background="{Binding CompareStatus, Converter={StaticResource CompareCvt}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="4*" />
                 <RowDefinition Height="3*" />
@@ -24,7 +30,7 @@
                 Glyph="{Binding Converter={StaticResource IconCvt}}"
                 Style="{ThemeResource HeaderIcon}" />
             <StackPanel Grid.Column="1" Orientation="Horizontal">
-                <TextBlock Style="{ThemeResource HeaderTb}" Text="{Binding Name}" />
+                <TextBlock Style="{ThemeResource HeaderLabelStyle}" Text="{Binding Name}" />
                 <FontIcon
                     Glyph="&#xE72E;"
                     Style="{ThemeResource HeaderStamp}"
@@ -35,13 +41,37 @@
                 Grid.Column="1"
                 Orientation="Horizontal"
                 Spacing="8">
-                <TextBlock Style="{ThemeResource MetaTb}" Text="{Binding Length, Converter={StaticResource SizeCvt}}" />
-                <TextBlock Style="{ThemeResource MetaTb}" Text="{Binding CreatedTime}" />
+                <TextBlock Style="{ThemeResource MetaLabelStyle}" Text="{Binding Length, Converter={StaticResource SizeCvt}}" />
+                <TextBlock Style="{ThemeResource MetaLabelStyle}" Text="{Binding CreatedTime}" />
             </StackPanel>
+            <Grid.ContextFlyout>
+                <MenuFlyout>
+                    <MenuFlyoutItem
+                        Command="{Binding Host.EditCommand}"
+                        CommandParameter="{Binding}"
+                        Icon="Edit"
+                        Text="编辑" />
+                    <MenuFlyoutItem
+                        Command="{Binding Host.SwitchCommand}"
+                        CommandParameter="{Binding}"
+                        Icon="Switch"
+                        Text="{Binding Host.IsRemote, Converter={StaticResource SwitchLabelCvt}}" />
+                    <MenuFlyoutItem
+                        Command="{Binding Host.RenameCommand}"
+                        CommandParameter="{Binding}"
+                        Icon="Rename"
+                        Text="重命名" />
+                    <MenuFlyoutItem
+                        Command="{Binding Host.DeleteCommand}"
+                        CommandParameter="{Binding}"
+                        Icon="Delete"
+                        Text="删除" />
+                </MenuFlyout>
+            </Grid.ContextFlyout>
         </Grid>
     </DataTemplate>
     <DataTemplate x:Key="DirectoryEntryTemaplate">
-        <Grid Height="60">
+        <Grid Height="60" Background="{Binding CompareStatus, Converter={StaticResource CompareCvt}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="60" />
                 <ColumnDefinition />
@@ -52,12 +82,31 @@
                 Grid.Column="1"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
-                <TextBlock Style="{ThemeResource HeaderTb}" Text="{Binding Name}" />
+                <TextBlock Style="{ThemeResource HeaderLabelStyle}" Text="{Binding Name}" />
                 <FontIcon
                     Glyph="&#xE72E;"
                     Style="{ThemeResource HeaderStamp}"
                     Visibility="{Binding IsEncrypted, Converter={StaticResource ToggleCvt}}" />
             </StackPanel>
+            <Grid.ContextFlyout>
+                <MenuFlyout>
+                    <MenuFlyoutItem
+                        Command="{Binding Host.SwitchCommand}"
+                        CommandParameter="{Binding}"
+                        Icon="Switch"
+                        Text="{Binding Host.IsRemote, Converter={StaticResource SwitchLabelCvt}}" />
+                    <MenuFlyoutItem
+                        Command="{Binding Host.RenameCommand}"
+                        CommandParameter="{Binding}"
+                        Icon="Rename"
+                        Text="重命名" />
+                    <MenuFlyoutItem
+                        Command="{Binding Host.DeleteCommand}"
+                        CommandParameter="{Binding}"
+                        Icon="Delete"
+                        Text="删除" />
+                </MenuFlyout>
+            </Grid.ContextFlyout>
         </Grid>
     </DataTemplate>
 
@@ -72,7 +121,7 @@
             <TextBlock
                 Grid.Column="1"
                 VerticalAlignment="Center"
-                Style="{ThemeResource HeaderTb}"
+                Style="{ThemeResource HeaderLabelStyle}"
                 Text=".." />
         </Grid>
     </DataTemplate>

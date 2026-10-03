@@ -6,6 +6,8 @@
     <cvt:SizeConverter x:Key="SizeCvt" />
     <cvt:ToggleConverter x:Key="ToggleCvt" />
     <cvt:LockConverter x:Key="LockCvt" />
+    <cvt:RefreshIconConverter x:Key="RefreshIconCvt" />
+
 
     <Thickness x:Key="TextBoxTopHeaderMargin">0,12,0,2</Thickness>
     <Thickness x:Key="ComboBoxTopHeaderMargin">0,12,0,2</Thickness>
@@ -35,11 +37,11 @@
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Foreground" Value="{ThemeResource BodyTextBrush}" />
     </Style>
-    <Style x:Name="LineHeaderTb" TargetType="TextBlock">
+    <Style x:Name="LineHeaderLabelStyle" TargetType="TextBlock">
         <Setter Property="Margin" Value="{StaticResource TextBoxTopHeaderMargin}" />
         <Setter Property="Foreground" Value="{ThemeResource BodyTextBrush}" />
     </Style>
-    <Style x:Name="InlineTextTb" TargetType="TextBlock">
+    <Style x:Name="InlineLabelStyle" TargetType="TextBlock">
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Foreground" Value="{ThemeResource BodyTextBrush}" />
     </Style>

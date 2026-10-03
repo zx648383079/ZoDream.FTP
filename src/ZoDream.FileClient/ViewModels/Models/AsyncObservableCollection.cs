@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using ZoDream.Shared.Interfaces;
 
@@ -27,6 +28,14 @@ namespace ZoDream.FileClient.ViewModels
         public void Stop()
         {
             IsPaused = true;
+        }
+
+        public void Add(IEnumerable<T> items)
+        {
+            foreach (var item in items)
+            {
+                Add(item);
+            }
         }
     }
 }

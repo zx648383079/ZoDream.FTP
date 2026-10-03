@@ -57,7 +57,7 @@
         </PivotItem>
         <PivotItem Header="高级">
             <StackPanel>
-                <TextBlock Style="{StaticResource LineHeaderTb}" Text="默认本地目录" />
+                <TextBlock Style="{StaticResource LineHeaderLabelStyle}" Text="默认本地目录" />
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />

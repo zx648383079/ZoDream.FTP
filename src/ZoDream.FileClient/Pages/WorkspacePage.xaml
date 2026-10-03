@@ -51,22 +51,58 @@
             BorderThickness="0,0,1,0">
             <ctl:ExplorerView
                 BackCommand="{Binding LocalStorage.BackCommand}"
+                BackEnabled="{Binding LocalStorage.CanGoBack}"
+                BackVisible="{Binding LocalStorage.CanGoBack, Converter={StaticResource ToggleCvt}}"
                 GoCommand="{Binding LocalStorage.GoCommand}"
                 HomeCommand="{Binding LocalStorage.HomeCommand}"
+                HomeEnabled="{Binding LocalStorage.CanGoHome}"
+                HomeVisible="{Binding LocalStorage.CanGoHome, Converter={StaticResource ToggleCvt}}"
+                ItemClickCommand="{Binding LocalStorage.ClickCommand}"
                 ItemsSource="{Binding LocalStorage.Items}"
                 RefreshCommand="{Binding LocalStorage.RefreshCommand}"
+                RefreshIcon="{Binding LocalStorage.Items.InProgress, Converter={StaticResource RefreshIconCvt}}"
                 RoutePath="{Binding LocalStorage.RoutePath}" />
         </Border>
-        <ctl:ExplorerView
-            Grid.Row="1"
-            Grid.Column="1"
-            BackCommand="{Binding RemoteStorage.BackCommand}"
-            GoCommand="{Binding RemoteStorage.GoCommand}"
-            HomeCommand="{Binding RemoteStorage.HomeCommand}"
-            ItemsSource="{Binding RemoteStorage.Items}"
-            RefreshCommand="{Binding RemoteStorage.RefreshCommand}"
-            RoutePath="{Binding RemoteStorage.RoutePath}" />
-
+        <Grid Grid.Row="1" Grid.Column="1">
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal"
+                Spacing="8"
+                Visibility="{Binding RemoteIsEmpty, Converter={StaticResource ToggleCvt}}">
+                <ctl:IconButton
+                    Command="{Binding OpenCommand}"
+                    Header="FTP"
+                    Icon="&#xE703;" />
+                <ctl:IconButton
+                    Command="{Binding OpenCommand}"
+                    CommandParameter="WebDAV"
+                    Header="WebDAV"
+                    Icon="&#xE774;" />
+                <ctl:IconButton
+                    Command="{Binding OpenCommand}"
+                    CommandParameter="Socket"
+                    Header="Socket"
+                    Icon="&#xE701;" />
+                <ctl:IconButton
+                    Command="{Binding OpenCommand}"
+                    CommandParameter="Local"
+                    Header="Local"
+                    Icon="&#xE8DA;" />
+            </StackPanel>
+            <ctl:ExplorerView
+                BackCommand="{Binding RemoteStorage.BackCommand}"
+                BackEnabled="{Binding RemoteStorage.CanGoBack}"
+                GoCommand="{Binding RemoteStorage.GoCommand}"
+                HomeCommand="{Binding RemoteStorage.HomeCommand}"
+                HomeEnabled="{Binding RemoteStorage.CanGoHome}"
+                ItemClickCommand="{Binding RemoteStorage.ClickCommand}"
+                ItemsSource="{Binding RemoteStorage.Items}"
+                RefreshCommand="{Binding RemoteStorage.RefreshCommand}"
+                RefreshIcon="{Binding RemoteStorage.Items.InProgress, Converter={StaticResource RefreshIconCvt}}"
+                RoutePath="{Binding RemoteStorage.RoutePath}"
+                Visibility="{Binding RemoteIsEmpty, Converter={StaticResource ToggleCvt}, ConverterParameter=False}" />
+        </Grid>
         <TabView
             Grid.Row="2"
             Grid.ColumnSpan="2"

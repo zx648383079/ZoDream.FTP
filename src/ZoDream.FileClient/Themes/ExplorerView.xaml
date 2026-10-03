@@ -25,6 +25,7 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
     <Style TargetType="ctl:ExplorerView">
+        <Setter Property="RefreshIcon" Value="&#xE72C;" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ctl:ExplorerView">
@@ -68,15 +69,11 @@
                                     x:Name="PART_RouteTb"
                                     Grid.Column="3"
                                     IsEnabled="{TemplateBinding IsEnabled}"
-                                    Style="{StaticResource RouteText}">
-                                    <ivy:Interaction.Behaviors>
-                                        <bhv:ConfirmSubmittedBehavior Command="{Binding GoCommand}" />
-                                    </ivy:Interaction.Behaviors>
-                                </TextBox>
+                                    Style="{StaticResource RouteText}" />
                                 <Button
                                     Grid.Column="4"
                                     Command="{TemplateBinding RefreshCommand}"
-                                    Content="&#xE72C;"
+                                    Content="{TemplateBinding RefreshIcon}"
                                     IsEnabled="{TemplateBinding IsEnabled}"
                                     Style="{StaticResource RouteIconBtn}" />
                                 <Button
@@ -88,7 +85,10 @@
                                     Style="{StaticResource RouteIconBtn}" />
                             </Grid>
                             <ListView
+                                x:Name="PART_ListBox"
                                 Grid.Row="1"
+                                HorizontalContentAlignment="Stretch"
+                                IsDoubleTapEnabled="True"
                                 ItemTemplateSelector="{StaticResource EntryTemplateSelector}"
                                 ItemsSource="{TemplateBinding ItemsSource}" />
                         </Grid>

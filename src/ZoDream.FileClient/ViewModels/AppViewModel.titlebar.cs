@@ -4,8 +4,6 @@ using Microsoft.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Graphics;
 using Windows.UI;
@@ -31,11 +29,11 @@ namespace ZoDream.FileClient.ViewModels
 
         public void InitializeTitleBar()
         {
-            if (_appWindow is null)
+            if (_baseWindow is null)
             {
                 return;
             }
-            var bar = _appWindow.TitleBar;
+            var bar = _baseWindow.AppWindow.TitleBar;
             bar.ExtendsContentIntoTitleBar = true;
             if (Application.Current.RequestedTheme == ApplicationTheme.Light)
             {
@@ -118,7 +116,7 @@ namespace ZoDream.FileClient.ViewModels
                 (int)(elementPoint.Y * dpiScaleFactor),
                 (int)(TitleBar.ActualWidth * dpiScaleFactor), (int)(TitleBar.ActualHeight * dpiScaleFactor));
 
-            if (InputNonClientPointerSource.GetForWindowId(_appWindow.Id) is
+            if (InputNonClientPointerSource.GetForWindowId(_baseWindow.AppWindow.Id) is
                 InputNonClientPointerSource nonClientSource)
             {
                 nonClientSource.ClearRegionRects(NonClientRegionKind.Caption);
@@ -157,7 +155,7 @@ namespace ZoDream.FileClient.ViewModels
                 (int)Math.Round(TitleBar.ActualWidth * dpiScaleFactor),
                 (int)Math.Round(TitleBar.ActualHeight * dpiScaleFactor));
 
-            if (InputNonClientPointerSource.GetForWindowId(_appWindow.Id) is
+            if (InputNonClientPointerSource.GetForWindowId(_baseWindow.AppWindow.Id) is
                 InputNonClientPointerSource nonClientSource)
             {
                 nonClientSource.ClearRegionRects(NonClientRegionKind.Passthrough);

@@ -57,6 +57,16 @@
                     <FontIcon Glyph="&#xE710;" />
                 </win:SettingsCard.HeaderIcon>
             </win:SettingsCard>
+            <win:SettingsCard
+                Command="{Binding EmptyCommand}"
+                Description="只选择本地文件夹开始"
+                Header="空开始"
+                IsActionIconVisible="False"
+                IsClickEnabled="True">
+                <win:SettingsCard.HeaderIcon>
+                    <FontIcon Glyph="&#xE703;" />
+                </win:SettingsCard.HeaderIcon>
+            </win:SettingsCard>
         </StackPanel>
     </Grid>
 </Page>

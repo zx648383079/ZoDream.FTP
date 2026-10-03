@@ -20,8 +20,6 @@ namespace ZoDream.FileClient.ViewModels
             BackCommand = new RelayCommand(NavigateBack);
         }
         private Window _baseWindow;
-        private IntPtr _baseWindowHandle;
-        private AppWindow _appWindow;
 
         /// <summary>
         /// UI线程.
@@ -44,9 +42,6 @@ namespace ZoDream.FileClient.ViewModels
         public void Binding(Window window, Frame frame)
         {
             _baseWindow = window;
-            _baseWindowHandle = WindowNative.GetWindowHandle(_baseWindow);
-            var windowId = Win32Interop.GetWindowIdFromWindow(_baseWindowHandle);
-            _appWindow = AppWindow.GetFromWindowId(windowId);
             _rootFrame = frame;
             Startup();
         }

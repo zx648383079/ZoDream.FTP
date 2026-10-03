@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ctl="using:ZoDream.FileClient.Controls"
+    xmlns:local="using:ZoDream.FileClient">
+    <Style TargetType="ctl:LargeIconButton">
+        <Setter Property="Background" Value="{StaticResource CardBackgroundFillColorDefaultBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource CardStrokeColorDefaultBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Height" Value="80" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ctl:LargeIconButton">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <FontIcon
+                                FontSize="{TemplateBinding IconFontSize}"
+                                FontWeight="Normal"
+                                Glyph="{TemplateBinding Icon}" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock
+                                    FontFamily="{TemplateBinding FontFamily}"
+                                    FontSize="{TemplateBinding FontSize}"
+                                    FontWeight="{TemplateBinding FontWeight}"
+                                    Text="{TemplateBinding Header}" />
+                                <TextBlock
+                                    FontFamily="{TemplateBinding FontFamily}"
+                                    FontSize="{TemplateBinding MetaFontSize}"
+                                    FontWeight="Normal"
+                                    Text="{TemplateBinding Meta}" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="ctl:IconButton">
+        <Setter Property="Background" Value="{StaticResource CardBackgroundFillColorDefaultBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource CardStrokeColorDefaultBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ctl:IconButton">
+                    <Border
+                        Padding="20"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="5">
+                        <StackPanel Spacing="5">
+                            <FontIcon
+                                Margin="0,0,0,10"
+                                HorizontalAlignment="Center"
+                                FontSize="{TemplateBinding IconFontSize}"
+                                FontWeight="Normal"
+                                Glyph="{TemplateBinding Icon}" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontFamily="{TemplateBinding FontFamily}"
+                                FontSize="{TemplateBinding FontSize}"
+                                FontWeight="{TemplateBinding FontWeight}"
+                                Text="{TemplateBinding Header}" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontFamily="{TemplateBinding FontFamily}"
+                                FontSize="{TemplateBinding MetaFontSize}"
+                                FontWeight="Normal"
+                                Text="{TemplateBinding Meta}"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
