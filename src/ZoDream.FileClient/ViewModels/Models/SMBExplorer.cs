@@ -2,7 +2,7 @@
 using SMBLibrary.Client;
 using SMBLibrary.SMB1;
 using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -15,8 +15,22 @@ namespace ZoDream.FileClient.ViewModels
     public class SMBExplorer(IEntryService service) : IEntryExplorer
     {
         private ISMBClient? _client;
+        public ISourceEntry HomeEntry { get; private set; } = DirectoryEntry.Empty;
+
+        public bool TryGetPrevious(ISourceEntry entry, out ISourceEntry parent)
+        {
+            if (!StorageExplorer.IsSubPathOf(HomeEntry.FullPath, entry.FullPath))
+            {
+                parent = entry;
+                return false;
+            }
+            parent = new DirectoryEntry(Path.GetDirectoryName(entry.FullPath) ?? HomeEntry.FullPath);
+            return true;
+        }
         public Task<bool> ConnectAsync(IConnectOptions option, CancellationToken token = default)
         {
+            _client?.Disconnect();
+            HomeEntry = new DirectoryEntry(option.RemotePath);
             _client = option.RemoteProtocol switch
             {
                 ProtocolType.SMBv1 => new SMB1Client(),
@@ -86,7 +100,7 @@ namespace ZoDream.FileClient.ViewModels
                 out var fileStatus,
                 folder, 
                 AccessMask.GENERIC_READ, 
-                FileAttributes.Directory, 
+                SMBLibrary.FileAttributes.Directory, 
                 ShareAccess.Read | ShareAccess.Write, 
                 CreateDisposition.FILE_OPEN, 
                 CreateOptions.FILE_DIRECTORY_FILE, null);

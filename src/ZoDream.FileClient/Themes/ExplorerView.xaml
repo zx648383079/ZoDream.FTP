@@ -69,7 +69,8 @@
                                     x:Name="PART_RouteTb"
                                     Grid.Column="3"
                                     IsEnabled="{TemplateBinding IsEnabled}"
-                                    Style="{StaticResource RouteText}" />
+                                    Style="{StaticResource RouteText}"
+                                    Text="{TemplateBinding RoutePath}" />
                                 <Button
                                     Grid.Column="4"
                                     Command="{TemplateBinding RefreshCommand}"

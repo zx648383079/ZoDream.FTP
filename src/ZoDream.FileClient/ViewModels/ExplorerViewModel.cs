@@ -36,8 +36,18 @@ namespace ZoDream.FileClient.ViewModels
 
         private CancellationTokenSource _tokenSource = new();
         private WorkspaceViewModel? _host;
+        /// <summary>
+        /// 跳转历史
+        /// </summary>
+        private readonly List<string> _routeItems = new(10);
 
-        public string RoutePath => string.Empty;
+        private string _routePath = string.Empty;
+
+        public string RoutePath {
+            get => _routePath;
+            set => SetProperty(ref _routePath, value);
+        }
+
 
         public IEntryExplorer Container { get; internal set; }
 
@@ -77,26 +87,47 @@ namespace ZoDream.FileClient.ViewModels
         public ICommand DeleteCommand { get; private set; }
         public ICommand ClickCommand { get; private set; }
 
-        private void TapBack()
+        private async void TapBack()
         {
-
+            if (!CanGoBack)
+            {
+                return;
+            }
+            if (!Container.TryGetPrevious(new DirectoryEntry(RoutePath), out var entry))
+            {
+                return;
+            }
+            if (!Items.IsPaused)
+            {
+                _tokenSource.Cancel();
+            }
+            await LoadAsync(entry.FullPath);
         }
 
-        private void TapHome()
+        private async void TapHome()
         {
-
+            if (!Items.IsPaused)
+            {
+                _tokenSource.Cancel();
+            }
+            await LoadAsync(Container.HomeEntry.FullPath);
         }
-        private void TapRefresh()
+        private async void TapRefresh()
         {
             if (!Items.IsPaused)
             {
                 _tokenSource.Cancel();
                 return;
             }
+            await LoadAsync(RoutePath);
         }
-        private void TapEnter()
+        private async void TapEnter()
         {
-
+            if (!Items.IsPaused)
+            {
+                _tokenSource.Cancel();
+            }
+            await LoadAsync(RoutePath);
         }
         #region 操作具体的
         private void TapEdit(ISourceEntry? entry)
@@ -164,6 +195,7 @@ namespace ZoDream.FileClient.ViewModels
             {
                 return;
             }
+            RoutePath = path;
             _tokenSource.Cancel();
             Items.Clear();
             Items.Start();

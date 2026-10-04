@@ -137,6 +137,8 @@ namespace ZoDream.FileClient.ViewModels
             {
                 e.OnLog -= Logger_OnLog;
             }
+            LocalStorage.Container.Dispose();
+            RemoteStorage.Container.Dispose();
             Console = null;
         }
 
@@ -214,7 +216,8 @@ namespace ZoDream.FileClient.ViewModels
                 ProtocolType.WebDAV => new WebDAVExplorer(_service),
                 ProtocolType.AFP => throw new NotImplementedException(),
                 ProtocolType.NFS => throw new NotImplementedException(),
-                ProtocolType.Local => new StorageExplorer(_service),
+                ProtocolType.Socket => new SocketExplorer(_service),
+                ProtocolType.Local => new StorageExplorer(_service, true),
                 _ => throw new NotImplementedException()
             };
         }

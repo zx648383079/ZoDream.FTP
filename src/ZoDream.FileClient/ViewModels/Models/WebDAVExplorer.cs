@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,8 +12,22 @@ namespace ZoDream.FileClient.ViewModels
     public class WebDAVExplorer(IEntryService service) : IEntryExplorer
     {
         private IWebDavClient? _client;
+        public ISourceEntry HomeEntry { get; private set; } = DirectoryEntry.Empty;
+
+        public bool TryGetPrevious(ISourceEntry entry, out ISourceEntry parent)
+        {
+            if (!StorageExplorer.IsSubPathOf(HomeEntry.FullPath, entry.FullPath))
+            {
+                parent = entry;
+                return false;
+            }
+            parent = new DirectoryEntry(Path.GetDirectoryName(entry.FullPath) ?? HomeEntry.FullPath);
+            return true;
+        }
         public Task<bool> ConnectAsync(IConnectOptions option, CancellationToken token = default)
         {
+            _client?.Dispose();
+            HomeEntry = new DirectoryEntry(option.RemotePath);
             _client = new WebDavClient(new WebDavClientParams { 
                 BaseAddress = new Uri(option.RemoteHost),
                 Credentials = new NetworkCredential(option.RemoteUser, option.RemotePassword)

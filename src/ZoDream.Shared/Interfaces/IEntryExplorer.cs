@@ -20,6 +20,10 @@ namespace ZoDream.Shared.Interfaces
 
     public interface IEntryExplorer : IDisposable
     {
+        /// <summary>
+        /// 获取根目录
+        /// </summary>
+        public ISourceEntry HomeEntry { get; }
 
         /// <summary>
         /// 连接
@@ -35,7 +39,15 @@ namespace ZoDream.Shared.Interfaces
         /// <param name="entrance"></param>
         /// <returns></returns>
         public ISourceEntry Convert(IConnectEntrance entrance);
+        /// <summary>
+        /// 根据路径获取上一级
+        /// </summary>
+        /// <param name="entry"></param>
+        /// <param name="parent"></param>
+        /// <returns></returns>
+        public bool TryGetPrevious(ISourceEntry entry, out ISourceEntry parent);
 
         public Task<IEntryStream> OpenAsync(ISourceEntry entry, CancellationToken token = default);
+        
     }
 }

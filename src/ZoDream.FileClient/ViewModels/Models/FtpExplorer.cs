@@ -1,5 +1,6 @@
 ﻿using FluentFTP;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using ZoDream.Shared.Interfaces;
@@ -10,9 +11,22 @@ namespace ZoDream.FileClient.ViewModels
     {
 
         private AsyncFtpClient? _client;
+        public ISourceEntry HomeEntry { get; private set; } = DirectoryEntry.Empty;
+
+        public bool TryGetPrevious(ISourceEntry entry, out ISourceEntry parent)
+        {
+            if (!StorageExplorer.IsSubPathOf(HomeEntry.FullPath, entry.FullPath))
+            {
+                parent = entry;
+                return false;
+            }
+            parent = new DirectoryEntry(Path.GetDirectoryName(entry.FullPath) ?? HomeEntry.FullPath);
+            return true;
+        }
         public async Task<bool> ConnectAsync(IConnectOptions option, CancellationToken token = default)
         {
             _client?.Dispose();
+            HomeEntry = new DirectoryEntry(option.RemotePath);
             _client = new AsyncFtpClient(option.RemoteHost, option.RemotePort, null, new FtpLogger())
             {
                 Credentials = new System.Net.NetworkCredential(option.RemoteUser, option.RemotePassword)
